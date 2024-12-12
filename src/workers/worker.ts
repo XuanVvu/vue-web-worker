@@ -4,11 +4,9 @@ const fibonacci = (n: number): number => {
 }
 
 self.onmessage = (e) => {
-  console.log(e)
-
   const { number, workerId } = e.data
-  const start = performance.now()
+  let end = 0
   const result = fibonacci(number)
-  const end = performance.now()
-  self.postMessage({ result, time: end - start, workerId })
+  end = performance.now()
+  self.postMessage({ result, endTime: end, workerId })
 }
