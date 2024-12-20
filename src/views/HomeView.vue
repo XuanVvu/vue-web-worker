@@ -1,7 +1,6 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import ImageProcessor from "@/components/ImageProcessor.vue"
 
 const syncLoadings = ref<boolean[]>([])
 const fibSync = ref<number[]>([])
@@ -12,7 +11,6 @@ const aSyncLoadings = ref<boolean[]>([])
 const workerCount = ref(navigator.hardwareConcurrency || 4);
 const workers = ref<any>([]);
 const asyncResults = ref<any>([]);
-// const asyncTimes = ref<number[]>([]);
 const startTimeAsync = ref<number>(0)
 const endTimeAsync = ref<number>(0)
 
@@ -65,7 +63,6 @@ const calculateAsync = () => {
   if (!startTimeAsync.value) {
     startTimeAsync.value = performance.now()
   }
-  console.log(startTimeAsync.value);
 
   aSyncLoadings.value = [...aSyncLoadings.value, true]
   const worker = workers.value[currentWorkerIndex];
@@ -83,7 +80,7 @@ onBeforeUnmount(terminateWorkers);
 
   <div style="display: flex; padding-top: 25px ; gap: 100px;">
     <div>
-      <button @click="calculateSync">Calculate Fibonacci Sync</button>
+      <button @click="calculateSync">Calculate Fibonacci</button>
       <h3>Time: {{ ((endTimeSync as number) - (startTimeSync as number)).toFixed(2) }} ms</h3>
       <p v-for="(loading, index) in syncLoadings" :key="index + `${loading}`">
         Calculating synchronously {{ index }} ...
@@ -98,10 +95,10 @@ onBeforeUnmount(terminateWorkers);
     </div>
 
     <div>
-      <button @click="calculateAsync">Calculate Fibonacci Async</button>
-      <h3>Time: {{ ((endTimeAsync as number) - (startTimeAsync as number)).toFixed(2) }} ms</h3>
-
-      <!-- <h3>Time: {{ (asyncTimes[asyncTimes.length - 1]).toFixed(2) }} ms</h3> -->
+      <button @click="calculateAsync">Calculate Fibonacci Worker</button>
+      <h3>Time: {{ Number(((endTimeAsync as number) - (startTimeAsync as number)).toFixed(2)) > 0 ? ((endTimeAsync as
+        number) -
+        (startTimeAsync as number)).toFixed(2) : 0 }} ms</h3>
       <p v-for="(loading, index) in aSyncLoadings" :key="index">
         Calculating asynchronously ...
       </p>
@@ -112,5 +109,5 @@ onBeforeUnmount(terminateWorkers);
     </div>
 
   </div>
-  <ImageProcessor />
+  <!-- <ImageProcessor /> -->
 </template>
