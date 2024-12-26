@@ -70,6 +70,11 @@ const calculateAsync = () => {
   currentWorkerIndex = (currentWorkerIndex + 1) % workerCount.value;
 }
 
+const onClicked = () => {
+  console.log('clicked');
+
+}
+
 
 
 onMounted(createWorker);
@@ -81,7 +86,8 @@ onBeforeUnmount(terminateWorkers);
   <div style="display: flex; padding-top: 25px ; gap: 100px;">
     <div>
       <button @click="calculateSync">Calculate Fibonacci</button>
-      <h3>Time: {{ ((endTimeSync as number) - (startTimeSync as number)).toFixed(2) }} ms</h3>
+      <h3>Time: {{ Number(((endTimeSync as number) - (startTimeSync as number)).toFixed(2)) > 0 ? (((endTimeSync as
+        number) - (startTimeSync as number)).toFixed(2)) : 0 }} ms</h3>
       <p v-for="(loading, index) in syncLoadings" :key="index + `${loading}`">
         Calculating synchronously {{ index }} ...
       </p>
@@ -109,5 +115,7 @@ onBeforeUnmount(terminateWorkers);
     </div>
 
   </div>
+
+  <button @click="onClicked">Click</button>
   <!-- <ImageProcessor /> -->
 </template>
